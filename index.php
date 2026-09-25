@@ -387,13 +387,13 @@ $result_products = mysqli_query($con, $sql_products);
 											<h2>$<?php echo $row['price']; ?></h2>
                                             
 											<p><?php echo $row['title']; ?></p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											<a href="#" id="<?php echo $row['id']; ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">
-												<h2>$<?php echo $row[price]; ?></h2>
-												<p><?php echo $row[title]; ?></p>
-												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+												<h2>$<?php echo $row['price']; ?></h2>
+												<p><?php echo $row['title']; ?></p>
+												<a href="#" id="<?php echo $row['id']; ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 											</div>
 										</div>
 								</div>
@@ -964,5 +964,31 @@ $result_products = mysqli_query($con, $sql_products);
 	<script src="js/price-range.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
+	<script>
+	// Lay tat ca nut add-to-cart
+	document.querySelectorAll('.add-to-cart').forEach(button => {
+		button.addEventListener('click', async function(e) {
+			e.preventDefault(); 
+
+			// Ly ID product ra (dung js) tu thuoc tinh id cua nut
+			let id = this.id; 
+
+			// Gui AJAX (fetch) (giong form)
+			const response = await fetch('ajax_hanlde_cart.php', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json', 
+				},
+				body: JSON.stringify({ id: id })
+			});
+
+			// Nhan phan hoi JSON tu PHP
+			const data = await response.json(); 
+			
+			console.log(data);
+			alert("Da them sp ID " + id + " vao gio hang thanh cong!");
+		});
+	});
+	</script>
 </body>
 </html>
