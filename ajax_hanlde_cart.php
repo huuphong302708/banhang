@@ -23,12 +23,8 @@ if ($id) {
         $mangcon['qty'] = 1;
         
         $_SESSION['CART'][] = $mangcon;
-
-        echo json_encode(['status' => 'success', 'added' => $mangcon]);
-    } else {
-        echo json_encode(['status' => 'error']);
     }
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'No ID received']);
+        $thongbao = count($_SESSION['CART']);
+        echo $thongbao; 
 }
 ?>

@@ -15,7 +15,8 @@ if (isset($_POST['btn_add_product'])) {
     
     $file_name = $_FILES['image']['name'];
     $file_tmp  = $_FILES['image']['tmp_name'];
-    $image_name = time() . '_' . $file_name;
+    $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+        $image_name = time() . '_' . rand(1000, 9999) . '.' . $file_ext;
     move_uploaded_file($file_tmp, "uploads/" . $image_name);
     
     $sql = "INSERT INTO product (id, title, price, image, id_user) VALUES ('$id_product', '$title', '$price', '$image_name', '$id_user')";

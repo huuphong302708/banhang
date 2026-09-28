@@ -2,7 +2,7 @@
 session_start();
 require_once 'connect.php';
 
-// YEU CAU: viet sql lay all product ra va hien thi ra html
+// viet sql lay all product ra va hien thi ra html
 $sql_products = "SELECT * FROM product";
 $result_products = mysqli_query($con, $sql_products);
 ?>
@@ -65,7 +65,7 @@ $result_products = mysqli_query($con, $sql_products);
 				<div class="row">
 					<div class="col-md-4 clearfix">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+							<a href="index.php"><img src="images/home/logo.png" alt="" /></a>
 						</div>
 						<div class="btn-group pull-right clearfix">
 							<div class="btn-group">
@@ -131,14 +131,14 @@ $result_products = mysqli_query($con, $sql_products);
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.html" class="active">Home</a></li>
+								<li><a href="index.php" class="active">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="shop.html">Products</a></li>
 										<li><a href="product-details.html">Product Details</a></li> 
 										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
-										<li><a href="login.html">Login</a></li> 
+										<li><a href="cart.php">Cart</a></li> 
+										<li><a href="login.php">Login</a></li> 
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
@@ -969,11 +969,9 @@ $result_products = mysqli_query($con, $sql_products);
 	document.querySelectorAll('.add-to-cart').forEach(button => {
 		button.addEventListener('click', async function(e) {
 			e.preventDefault(); 
-
-			// Ly ID product ra (dung js) tu thuoc tinh id cua nut
+			// Ly ID product 
 			let id = this.id; 
 
-			// Gui AJAX (fetch) (giong form)
 			const response = await fetch('ajax_hanlde_cart.php', {
 				method: 'POST',
 				headers: {
@@ -982,11 +980,17 @@ $result_products = mysqli_query($con, $sql_products);
 				body: JSON.stringify({ id: id })
 			});
 
-			// Nhan phan hoi JSON tu PHP
+			// Nhan phan hoi JSON tu PHP (PHP dang tra ve Tong so san pham trong gio)
 			const data = await response.json(); 
 			
-			console.log(data);
-			alert("Da them sp ID " + id + " vao gio hang thanh cong!");
+            // data hien tai chinh la TONG SO LUONG trong gio hang duoc PHP tinh toan va tra ve
+            if (data > 0) {
+                alert("Da them san pham vao gio hang thanh cong!");
+                
+                // Thay doi truc tiep so luong tren bieu tuong Cart
+                let cartLink = document.querySelector('a[href="cart.php"]');
+                cartLink.innerHTML = '<i class="fa fa-shopping-cart"></i> Cart (' + data + ')';
+            }
 		});
 	});
 	</script>

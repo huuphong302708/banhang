@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
 
 if (isset($_POST['btn_update_product'])) {
     
-    // YEU CAU: Lay du lieu tu form
+    // Lay du lieu tu form
     $title = $_POST['title'];
     $price = $_POST['price'];
     
@@ -28,14 +28,14 @@ if (isset($_POST['btn_update_product'])) {
     if ($_FILES['image']['name'] != "") {
         $file_name = $_FILES['image']['name'];
         $file_tmp  = $_FILES['image']['tmp_name'];
-        $image_name = time() . '_' . $file_name;
+        $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+        $image_name = time() . '_' . rand(1000, 9999) . '.' . $file_ext;
         
         move_uploaded_file($file_tmp, "uploads/" . $image_name);
         $image_update_sql = ", image = '$image_name'";
     }
     
-    // YEU CAU: Update thong tin san pham vao table product
-    // TAI SAO PHAI THEM id_user = $id_user? De kiem tra bao mat IDOR, ngan can User A xoa/sua trom san pham cua User B bang cach go ID tren URL.
+    //  Update thong tin san pham vao table product
     $sql_update = "UPDATE product SET title = '$title', price = '$price' $image_update_sql WHERE id = '$id_product' AND id_user = '$id_user'";
     
     if (mysqli_query($con, $sql_update)) {

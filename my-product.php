@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $id_user = $_SESSION['user_id'];
 
-// show het product cua member do ra
+// hienthi het product cua nguoidung do ra
 $sql = "SELECT * FROM product WHERE id_user = '$id_user'";
 $result = mysqli_query($con, $sql);
 ?>
@@ -155,9 +155,7 @@ $result = mysqli_query($con, $sql);
                                 <tbody>
                                     
                                     <?php
-                                    // Kiem tra xem co san pham nao trong database cua user nay khong
                                     if (mysqli_num_rows($result) > 0) {
-                                        // Vong lap while: dung ngoac nhon de bao tron khoi HTML
                                         while ($row = mysqli_fetch_assoc($result)) {
                                     ?>
                                         <tr>
@@ -179,11 +177,9 @@ $result = mysqli_query($con, $sql);
                                                 <a href="delete-product.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Ban co chac muon xoa san pham nay khong?');">Delete</a>
                                             </td>
                                         </tr>
-                                    <?php
-                                        
+                                    <?php      
                                         }
-                                    } else {
-                                        
+                                    } else {  
                                         echo '<tr><td colspan="5" class="text-center">Khong co san pham nao.</td></tr>';
                                     }
                                     ?>

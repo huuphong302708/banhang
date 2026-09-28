@@ -16,7 +16,7 @@ if (isset($_POST['btn_register'])) {
     $file_size = $_FILES['avatar']['size'];
     $file_type = $_FILES['avatar']['type'];
     
-    // YEU CAU: show ra loi ben duoi moi input neu input nao chua nhap
+    // show ra loi ben duoi moi input neu input nao chua nhap
     if ($name == "") { $errors['name'] = "Vui long nhap ten."; }
     if ($email == "") { $errors['email'] = "Vui long nhap email."; }
     if ($password == "") { $errors['password'] = "Vui long nhap password."; }
@@ -29,7 +29,8 @@ if (isset($_POST['btn_register'])) {
             if ($file_size > 1048576) {
                 $errors['avatar'] = "Dung luong file phai nho hon 1MB.";
             } else {
-                $avatar_name = time() . '_' . $file_name;
+                $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+                $avatar_name = time() . '_' . rand(1000, 9999) . '.' . $file_ext;
             }
         } else {
             $errors['avatar'] = "Chi cho phep upload file hinh anh (jpg, png, gif).";
@@ -110,7 +111,7 @@ if (isset($_POST['btn_register'])) {
 				<div class="row">
 					<div class="col-md-4 clearfix">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+							<a href="index.php"><img src="images/home/logo.png" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-md-8 clearfix">
@@ -119,7 +120,7 @@ if (isset($_POST['btn_register'])) {
 								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
 								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
 								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 								<li><a href="login.php"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>
@@ -142,13 +143,13 @@ if (isset($_POST['btn_register'])) {
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.html">Home</a></li>
+								<li><a href="index.php">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="shop.html">Products</a></li>
 										<li><a href="product-details.html">Product Details</a></li> 
 										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
+										<li><a href="cart.php">Cart</a></li> 
 										<li><a href="login.php">Login</a></li> 
                                     </ul>
                                 </li> 

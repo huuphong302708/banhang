@@ -12,7 +12,7 @@ $user_id = $_SESSION['user_id'];
 $thong_bao = "";
 $errors = [];
 
-// Cho phep member update thong tin ca nhan
+// Cho phep nguoi dung update thong tin ca nhan
 if (isset($_POST['btn_update'])) {
     
     $name = $_POST['name'];
@@ -33,7 +33,8 @@ if (isset($_POST['btn_update'])) {
             if ($file_size > 1048576) {
                 $errors['avatar'] = "Dung luong file phai nho hon 1MB.";
             } else {
-                $avatar_name = time() . '_' . $file_name;
+                $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+                $avatar_name = time() . '_' . rand(1000, 9999) . '.' . $file_ext;
                 move_uploaded_file($file_tmp, "uploads/" . $avatar_name);
                 $avatar_update_sql = ", avatar = '$avatar_name'";
             }
@@ -60,7 +61,7 @@ if (isset($_POST['btn_update'])) {
     }
 }
 
-// YEU CAU: hien thi thong tin cua member
+// YEU CAU: hien thi thong tin cua nguoidung
 $sql_get = "SELECT * FROM user WHERE id = '$user_id'";
 $result = mysqli_query($con, $sql_get);
 $user_info = mysqli_fetch_assoc($result);
@@ -127,7 +128,7 @@ $current_avatar = $user_info['avatar'];
 				<div class="row">
 					<div class="col-md-4 clearfix">
 						<div class="logo pull-left">
-							<a href="index.html"><img src="images/home/logo.png" alt="" /></a>
+							<a href="index.php"><img src="images/home/logo.png" alt="" /></a>
 						</div>
 						<div class="btn-group pull-right clearfix">
 							<div class="btn-group">
@@ -193,14 +194,14 @@ $current_avatar = $user_info['avatar'];
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="index.html">Home</a></li>
+								<li><a href="index.php">Home</a></li>
 								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                         <li><a href="shop.html">Products</a></li>
 										<li><a href="product-details.html">Product Details</a></li> 
 										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
-										<li><a href="login.html">Login</a></li> 
+										<li><a href="cart.php">Cart</a></li> 
+										<li><a href="login.php">Login</a></li> 
                                     </ul>
                                 </li> 
 								<li class="dropdown"><a href="#" class="active">Blog<i class="fa fa-angle-down"></i></a>
