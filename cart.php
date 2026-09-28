@@ -89,11 +89,22 @@ session_start();
 					<div class="col-md-8 clearfix">
 						<div class="shop-menu clearfix pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href=""><i class="fa fa-user"></i> Account</a></li>
-								<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.php"><i class="fa fa-lock"></i> Login</a></li>
+                                <?php 
+                                $cart_count = 0;
+                                if (isset($_SESSION['CART'])) {
+                                    foreach ($_SESSION['CART'] as $item) {
+                                        $cart_count += $item['qty'];
+                                    }
+                                }
+                                ?>
+                                <li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart <?php if($cart_count > 0) echo "(" . $cart_count . ")"; ?></a></li>
+                                <?php if (isset($_SESSION['user_id'])) { ?>
+                                    <li><a href="account.php"><i class="fa fa-user"></i> Account (Xin chao <?php echo $_SESSION['user_name']; ?>)</a></li>
+                                    <li><a href="logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                <?php } else { ?>
+                                    <li><a href="login.php"><i class="fa fa-lock"></i> Login</a></li>
+                                    <li><a href="register.php"><i class="fa fa-user"></i> Register</a></li>
+                                <?php } ?>
 							</ul>
 						</div>
 					</div>

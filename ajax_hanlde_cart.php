@@ -19,12 +19,22 @@ if ($id) {
             'price' => $product['price'],
             'img' => $product['image']
         );
-        
-        $mangcon['qty'] = 1;
-        
-        $_SESSION['CART'][] = $mangcon;
+
+        if (isset($_SESSION['CART'][$id])) {
+            $_SESSION['CART'][$id]['qty'] += 1;
+        } else {
+            $mangcon['qty'] = 1;
+            $_SESSION['CART'][$id] = $mangcon;
+        }
     }
-        $thongbao = count($_SESSION['CART']);
-        echo $thongbao; 
+    
+    // Tinh tong
+    $tong = 0;
+    if (isset($_SESSION['CART'])) {
+        foreach ($_SESSION['CART'] as $item) {
+            $tong = $tong + $item['qty'];
+            }
+    }
+    echo $tong; 
 }
 ?>

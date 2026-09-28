@@ -40,19 +40,19 @@ $result_products = mysqli_query($con, $sql_products);
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+								<li><a href=""><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
+								<li><a href=""><i class="fa fa-envelope"></i> info@domain.com</a></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="social-icons pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+								<li><a href=""><i class="fa fa-facebook"></i></a></li>
+								<li><a href=""><i class="fa fa-twitter"></i></a></li>
+								<li><a href=""><i class="fa fa-linkedin"></i></a></li>
+								<li><a href=""><i class="fa fa-dribbble"></i></a></li>
+								<li><a href=""><i class="fa fa-google-plus"></i></a></li>
 							</ul>
 						</div>
 					</div>
@@ -95,21 +95,21 @@ $result_products = mysqli_query($con, $sql_products);
 						<div class="shop-menu clearfix pull-right">
 							<ul class="nav navbar-nav">
                                 <?php 
-                                
-                                if (isset($_SESSION['user_id'])) { 
+                                $cart_count = 0;
+                                if (isset($_SESSION['CART'])) {
+                                    foreach ($_SESSION['CART'] as $item) {
+                                        $cart_count += $item['qty'];
+                                    }
+                                }
                                 ?>
-                                    
+                                <li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart <?php if($cart_count > 0) echo "(" . $cart_count . ")"; ?></a></li>
+                                <?php if (isset($_SESSION['user_id'])) { ?>
                                     <li><a href="account.php"><i class="fa fa-user"></i> Account (Xin chao <?php echo $_SESSION['user_name']; ?>)</a></li>
                                     <li><a href="logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
-                                <?php 
-                                } else { 
-                                ?>
-                                    
+                                <?php } else { ?>
                                     <li><a href="login.php"><i class="fa fa-lock"></i> Login</a></li>
                                     <li><a href="register.php"><i class="fa fa-user"></i> Register</a></li>
-                                <?php 
-                                } 
-                                ?>
+                                <?php } ?>
 							</ul>
 						</div>
 					</div>

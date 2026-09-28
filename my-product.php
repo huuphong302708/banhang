@@ -74,12 +74,44 @@ $result = mysqli_query($con, $sql);
 						<div class="logo pull-left">
 							<a href="index.php"><img src="images/home/logo.png" alt="" /></a>
 						</div>
+						<div class="btn-group pull-right clearfix">
+							<div class="btn-group">
+								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+									USA
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a href="">Canada</a></li>
+									<li><a href="">UK</a></li>
+								</ul>
+							</div>
+							
+							<div class="btn-group">
+								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+									DOLLAR
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a href="">Canadian Dollar</a></li>
+									<li><a href="">Pound</a></li>
+								</ul>
+							</div>
+						</div>
 					</div>
 					<div class="col-md-8 clearfix">
 						<div class="shop-menu clearfix pull-right">
 							<ul class="nav navbar-nav">
+                                <?php 
+                                $cart_count = 0;
+                                if (isset($_SESSION['CART'])) {
+                                    foreach ($_SESSION['CART'] as $item) {
+                                        $cart_count += $item['qty'];
+                                    }
+                                }
+                                ?>
+                                <li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart <?php if($cart_count > 0) echo "(" . $cart_count . ")"; ?></a></li>
                                 <?php if (isset($_SESSION['user_id'])) { ?>
-                                    <li><a href="account.php" class="active"><i class="fa fa-user"></i> Account (Xin chao <?php echo $_SESSION['user_name']; ?>)</a></li>
+                                    <li><a href="account.php"><i class="fa fa-user"></i> Account (Xin chao <?php echo $_SESSION['user_name']; ?>)</a></li>
                                     <li><a href="logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
                                 <?php } else { ?>
                                     <li><a href="login.php"><i class="fa fa-lock"></i> Login</a></li>
