@@ -11,6 +11,10 @@ if (isset($_POST['btn_add_product'])) {
     $title = $_POST['title'];
     $price = $_POST['price'];
     
+        if (strpos($price, '$') === false) {
+        $price = '$' . $price;
+    }
+    
     $id_user = $_SESSION['user_id'];
     
     $file_name = $_FILES['image']['name'];

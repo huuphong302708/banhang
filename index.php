@@ -384,14 +384,14 @@ $result_products = mysqli_query($con, $sql_products);
                                             
 											<img src="uploads/<?php echo $row['image']; ?>" alt="" />
                                             
-											<h2>$<?php echo $row['price']; ?></h2>
+											<h2><?php echo $row['price']; ?></h2>
                                             
 											<p><?php echo $row['title']; ?></p>
 											<a href="#" id="<?php echo $row['id']; ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
 										<div class="product-overlay">
 											<div class="overlay-content">
-												<h2>$<?php echo $row['price']; ?></h2>
+												<h2><?php echo $row['price']; ?></h2>
 												<p><?php echo $row['title']; ?></p>
 												<a href="#" id="<?php echo $row['id']; ?>" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 											</div>

@@ -179,9 +179,12 @@ session_start();
 					</thead>
 					<tbody>
 						 <?php 
+						$grand_total = 0; 
 						if(isset($_SESSION['CART']) && count($_SESSION['CART']) > 0) {
 							foreach($_SESSION['CART'] as $key => $item) {
-								$total = $item['price'] * $item['qty'];
+																$clean_price = str_replace('$', '', $item['price']); 
+								$total = $clean_price * $item['qty'];
+								$grand_total += $total; 
 						?>
 						
 						<tr>
@@ -193,7 +196,7 @@ session_start();
 								<p>ID: <?php echo $item['id']; ?></p>
 							</td>
 							<td class="cart_price">
-								<p>$<?php echo $item['price']; ?></p>
+								<p><?php echo $item['price']; ?></p>
 							</td>
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
@@ -286,10 +289,10 @@ session_start();
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span>$59</span></li>
+														<li>Cart Sub Total <span>$<?php echo $grand_total; ?></span></li>
 							<li>Eco Tax <span>$2</span></li>
 							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>$61</span></li>
+														<li>Total <span>$<?php echo $grand_total + 2; ?></span></li>
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
 							<a class="btn btn-default check_out" href="">Check Out</a>
