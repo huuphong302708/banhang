@@ -200,16 +200,16 @@ session_start();
 							</td>
 							<td class="cart_quantity">
 								<div class="cart_quantity_button">
-									<a class="cart_quantity_up" href=""> + </a>
+									<a class="cart_quantity_up" id="<?php echo $item['id']; ?>" style="cursor:pointer" > + </a>
 									<input class="cart_quantity_input" type="text" name="quantity" value="<?php echo $item['qty']; ?>" autocomplete="off" size="2">
-									<a class="cart_quantity_down" href=""> - </a>
+									<a class="cart_quantity_down" id="<?php echo $item['id']; ?>" style="cursor:pointer" > - </a>
 								</div>
 							</td>
 							<td class="cart_total">
 								<p class="cart_total_price">$<?php echo $total; ?></p>
 							</td>
 							 <td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+								<a class="cart_quantity_delete" id="<?php echo $item['id']; ?>" style="cursor:pointer" ><i class="fa fa-times"></i></a>
 							</td>
 						</tr>
 						<?php 
@@ -467,5 +467,66 @@ session_start();
 	<script src="js/jquery.scrollUp.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
+	<script>
+		$(document).ready(function(){
+
+			$('.cart_quantity_up').click(function(e) {
+			e.preventDefault();
+
+			 let masp = $(this).attr('id');
+			let tr = $(this).closest('tr');
+			// lay so luong cu + 1
+			let SLcu = tr.find('.cart_quantity_input').val();
+			let SLmoi = Number(SLcu) + 1;
+			tr.find('.cart_quantity_input').val(SLmoi);
+			// lay gia tien va tinh ton moi
+			let dongia = tr.find('.cart_price p').text().replace('$', '');
+			let tongTien = dongia * SLmoi;
+			tr.find('.cart_total_price').text('$' + tongTien);
+			// guiw ajax luuw vao sesion
+
+			fetch('ajax_update_cart.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ id: masp, action: 'up' })
+				});
+			});
+
+			$('.cart_quantity_down').click(function(e) {
+			e.preventDefault();
+			let masp = $(this).attr('id');
+			let tr = $(this).closest('tr');
+			let SLcu = tr.find('.cart_quantity_input').val();
+			if (SLcu <= 1) {
+				alert('Khong duoc xoa san pham cuoi cung');
+				return;
+			}
+			let SLmoi = Number(SLcu) - 1;
+			tr.find('.cart_quantity_input').val(SLmoi);
+			let dongia = tr.find('.cart_price p').text().replace('$', '');
+			let tongTien = dongia * SLmoi;
+			tr.find('.cart_total_price').text('$' + tongTien);
+
+			fetch('ajax_update_cart.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ id: masp, action: 'down' })
+				});
+			});
+		
+			$('.cart_quantity_delete').click(function(e) {
+			e.preventDefault();
+			let masp = $(this).attr('id');
+			let tr = $(this).closest('tr');
+			tr.remove();
+
+			fetch('ajax_update_cart.php', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ id: masp, action: 'delete' })
+				});
+			});
+		});
+	</script>
 </body>
 </html>
