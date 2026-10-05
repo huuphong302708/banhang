@@ -7,7 +7,6 @@ $data = json_decode(file_get_contents("php://input"), true);
 $id = $data['id'];
 
 if ($id) {
-    // qua PHP goi ID ra, viet sql lay th0ng tin cua product nay theo ID (tra ve 1 mang)   => SS()
     $sql = "SELECT * FROM product WHERE id = '$id'";
     $result = mysqli_query($con, $sql);
     $product = mysqli_fetch_array($result);

@@ -71,7 +71,7 @@ if (isset($_POST['btn_login'])) {
                     </div>
                     <div class="col-md-8 clearfix">
                         <div class="shop-menu clearfix pull-right">
-                            							<ul class="nav navbar-nav">
+                            <ul class="nav navbar-nav">
                                 <?php 
                                 $cart_count = 0;
                                 if (isset($_SESSION['CART'])) {

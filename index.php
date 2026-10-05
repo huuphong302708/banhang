@@ -102,7 +102,10 @@ $result_products = mysqli_query($con, $sql_products);
                                     }
                                 }
                                 ?>
-                                <li><a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart <?php if($cart_count > 0) echo "(" . $cart_count . ")"; ?></a></li>
+                                <li>
+									<a href="cart.php"><i class="fa fa-shopping-cart"></i> Cart <?php if($cart_count > 0) echo "(" . $cart_count . ")"; ?></a>
+								</li>
+
                                 <?php if (isset($_SESSION['user_id'])) { ?>
                                     <li><a href="account.php"><i class="fa fa-user"></i> Account (Xin chao <?php echo $_SESSION['user_name']; ?>)</a></li>
                                     <li><a href="logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
@@ -980,16 +983,10 @@ $result_products = mysqli_query($con, $sql_products);
 				body: JSON.stringify({ id: id })
 			});
 
-			// Nhan phan hoi JSON tu PHP (PHP dang tra ve Tong so san pham trong gio)
 			const data = await response.json(); 
 			
-            // data hien tai chinh la TONG SO LUONG trong gio hang duoc PHP tinh toan va tra ve
             if (data > 0) {
                 alert("Da them san pham vao gio hang thanh cong!");
-                
-                // Thay doi truc tiep so luong tren bieu tuong Cart
-                let cartLink = document.querySelector('a[href="cart.php"]');
-                cartLink.innerHTML = '<i class="fa fa-shopping-cart"></i> Cart (' + data + ')';
             }
 		});
 	});
