@@ -289,10 +289,10 @@ session_start();
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-														<li>Cart Sub Total <span>$<?php echo $grand_total; ?></span></li>
+							<li>Cart Sub Total <span class="sub_total">$<?php echo $grand_total; ?></span></li>
 							<li>Eco Tax <span>$2</span></li>
 							<li>Shipping Cost <span>Free</span></li>
-														<li>Total <span>$<?php echo $grand_total + 2; ?></span></li>
+							<li>Total <span class="final_total">$<?php echo $grand_total + 2; ?></span></li>
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
 							<a class="btn btn-default check_out" href="">Check Out</a>
@@ -470,60 +470,75 @@ session_start();
 	<script>
 		$(document).ready(function(){
 
-			$('.cart_quantity_up').click(function(e) {
-			e.preventDefault();
+			function capNhatTongHoaDon() {
+				let tong = 0;
+				$(".cart_total_price").each(function() {
+					let tien = $(this).text().replace("$", "");
+					tong = tong + Number(tien);
+				});
+				$(".sub_total").text("$" + tong);
+				$(".final_total").text("$" + (tong + 2));
+			}
 
-			 let masp = $(this).attr('id');
-			let tr = $(this).closest('tr');
-			// lay so luong cu + 1
-			let SLcu = tr.find('.cart_quantity_input').val();
-			let SLmoi = Number(SLcu) + 1;
-			tr.find('.cart_quantity_input').val(SLmoi);
-			// lay gia tien va tinh ton moi
-			let dongia = tr.find('.cart_price p').text().replace('$', '');
-			let tongTien = dongia * SLmoi;
-			tr.find('.cart_total_price').text('$' + tongTien);
-			// guiw ajax luuw vao sesion
+			$(".cart_quantity_up").click(function(e) {
+				e.preventDefault();
 
-			fetch('ajax_update_cart.php', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ id: masp, action: 'up' })
+				let masp = $(this).attr("id");
+				let tr = $(this).closest("tr");
+				let SLcu = tr.find(".cart_quantity_input").val();
+				let SLmoi = Number(SLcu) + 1;
+				tr.find(".cart_quantity_input").val(SLmoi);
+				let dongia = tr.find(".cart_price p").text().replace("$", "");
+				let tongTien = dongia * SLmoi;
+				tr.find(".cart_total_price").text("$" + tongTien);
+
+				capNhatTongHoaDon();
+
+				fetch("ajax_update_cart.php", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ id: masp, action: "up" })
 				});
 			});
 
-			$('.cart_quantity_down').click(function(e) {
-			e.preventDefault();
-			let masp = $(this).attr('id');
-			let tr = $(this).closest('tr');
-			let SLcu = tr.find('.cart_quantity_input').val();
-			if (SLcu <= 1) {
-				alert('Khong duoc xoa san pham cuoi cung');
-				return;
-			}
-			let SLmoi = Number(SLcu) - 1;
-			tr.find('.cart_quantity_input').val(SLmoi);
-			let dongia = tr.find('.cart_price p').text().replace('$', '');
-			let tongTien = dongia * SLmoi;
-			tr.find('.cart_total_price').text('$' + tongTien);
+			$(".cart_quantity_down").click(function(e) {
+				e.preventDefault();
 
-			fetch('ajax_update_cart.php', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ id: masp, action: 'down' })
+				let masp = $(this).attr("id");
+				let tr = $(this).closest("tr");
+				let SLcu = tr.find(".cart_quantity_input").val();
+				if (SLcu <= 1) {
+					alert("Khong duoc xoa san pham cuoi cung");
+					return;
+				}
+				let SLmoi = Number(SLcu) - 1;
+				tr.find(".cart_quantity_input").val(SLmoi);
+				let dongia = tr.find(".cart_price p").text().replace("$", "");
+				let tongTien = dongia * SLmoi;
+				tr.find(".cart_total_price").text("$" + tongTien);
+
+				capNhatTongHoaDon();
+
+				fetch("ajax_update_cart.php", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ id: masp, action: "down" })
 				});
 			});
 		
-			$('.cart_quantity_delete').click(function(e) {
-			e.preventDefault();
-			let masp = $(this).attr('id');
-			let tr = $(this).closest('tr');
-			tr.remove();
+			$(".cart_quantity_delete").click(function(e) {
+				e.preventDefault();
 
-			fetch('ajax_update_cart.php', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ id: masp, action: 'delete' })
+				let masp = $(this).attr("id");
+				let tr = $(this).closest("tr");
+				tr.remove();
+
+				capNhatTongHoaDon();
+
+				fetch("ajax_update_cart.php", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ id: masp, action: "delete" })
 				});
 			});
 		});
