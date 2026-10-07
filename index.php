@@ -968,11 +968,9 @@ $result_products = mysqli_query($con, $sql_products);
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/main.js"></script>
 	<script>
-	// Lay tat ca nut add-to-cart
 	document.querySelectorAll('.add-to-cart').forEach(button => {
 		button.addEventListener('click', async function(e) {
 			e.preventDefault(); 
-			// Ly ID product 
 			let id = this.id; 
 
 			const response = await fetch('ajax_hanlde_cart.php', {
@@ -985,9 +983,11 @@ $result_products = mysqli_query($con, $sql_products);
 
 			const data = await response.json(); 
 			
-            if (data > 0) {
-                alert("Da them san pham vao gio hang thanh cong!");
-            }
+			if (data > 0) {
+				alert("Da them san pham vao gio hang thanh cong!");
+				let thecart = document.querySelector('a[href="cart.php"]');
+				thecart.innerHTML = `<i class="fa fa-shopping-cart"></i> Cart (${data})`;
+			}
 		});
 	});
 	</script>
